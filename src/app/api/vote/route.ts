@@ -1,23 +1,8 @@
-import { NextResponse } from "next/server";
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+// src/app/api/vote/route.ts
+import { NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
-  const { winner, loser } = await request.json();
-
-  const db = await open({
-    filename: ".data/votes.db",
-    driver: sqlite3.Database,
-  });
-
-  await db.run(
-    "CREATE TABLE IF NOT EXISTS votes (winner TEXT, loser TEXT)"
-  );
-
-  await db.run("INSERT INTO votes (winner, loser) VALUES (?, ?)", [
-    winner,
-    loser,
-  ]);
-
-  return NextResponse.json({ success: true });
+export async function POST(req: Request) {
+  const body = await req.json();
+  // Log or fake store the vote
+  return NextResponse.json({ success: true, received: body });
 }
