@@ -1,8 +1,11 @@
-// src/app/api/vote/route.ts
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+
+let votes: { winner: string; loser: string }[] = [];
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  // Log or fake store the vote
-  return NextResponse.json({ success: true, received: body });
+  const { winner, loser } = await req.json();
+
+  votes.push({ winner, loser });
+
+  return NextResponse.json({ success: true });
 }
