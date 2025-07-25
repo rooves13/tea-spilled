@@ -1,12 +1,23 @@
-// src/app/api/leaderboard/route.ts
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+
+let votes: { winner: string; loser: string }[] = [];
 
 export async function GET() {
-  const leaderboard = [
-    { name: 'Alice', votes: 42 },
-    { name: 'Bob', votes: 37 },
-    { name: 'Charlie', votes: 25 },
-  ];
+  const counts: Record<string, { wins: number; losses: number }> = {};
+
+  for (const { winner, loser } of votes) {
+    counts[winner] = counts[winner] || { wins: 0, losses: 0 };
+    counts[loser] = counts[loser] || { wins: 0, losses: 0 };
+
+    counts[winner].wins++;
+    counts[loser].losses++;
+  }
+
+  const leaderboard = Object.entries(counts).map(([image, { wins, losses }]) => ({
+    image,
+    wins,
+    losses,
+  }));
 
   return NextResponse.json(leaderboard);
 }
