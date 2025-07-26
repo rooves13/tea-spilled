@@ -2,17 +2,15 @@ import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  api_key: process.env.CLOUDINARY_API_KEY!,
+  api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
 export async function GET() {
   try {
     const result = await cloudinary.api.resources({
       type: "upload",
-      // Remove or update prefix if you have a folder, else omit
-      // prefix: "your-folder/",
       max_results: 100,
       resource_type: "image",
     });
