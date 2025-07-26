@@ -2,15 +2,19 @@
 
 import { useEffect, useState } from "react";
 
-const CLOUDINARY_BASE_URL = "https://res.cloudinary.com/dlufaisfi/image/upload";
+const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
-export default function Page() {
+function getCloudinaryUrl(publicId: string) {
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}.jpg`;
+}
+
+export default function Home() {
   const [images, setImages] = useState<string[]>([]);
   const [pair, setPair] = useState<string[]>([]);
 
   useEffect(() => {
     fetch("/api/images")
-      .then((r) => r.json())
+      .then((res) => res.json())
       .then((data) => {
         setImages(data);
         pickPair(data);
@@ -43,7 +47,7 @@ export default function Page() {
         {pair.map((img, i) => (
           <img
             key={img}
-            src={`${CLOUDINARY_BASE_URL}/${img}`}
+            src={getCloudinaryUrl(img)}
             alt="photo"
             width={300}
             height={300}
