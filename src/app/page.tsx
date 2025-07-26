@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+const CLOUDINARY_BASE_URL = "https://res.cloudinary.com/dlufaisfi/image/upload";
+
 export default function Page() {
   const [images, setImages] = useState<string[]>([]);
   const [pair, setPair] = useState<string[]>([]);
@@ -41,7 +43,7 @@ export default function Page() {
         {pair.map((img, i) => (
           <img
             key={img}
-            src={`/images/${img}`}
+            src={`${CLOUDINARY_BASE_URL}/${img}`}
             alt="photo"
             width={300}
             height={300}
