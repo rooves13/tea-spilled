@@ -2,14 +2,16 @@
 
 import { useEffect, useState } from "react";
 
-type Stat = { image: string; wins: number; losses: number };
+const CLOUDINARY_BASE_URL = "https://res.cloudinary.com/dlufaisfi/image/upload";
 
 export default function Leaderboard() {
-  const [data, setData] = useState<Stat[]>([]);
+  const [data, setData] = useState<
+    { image: string; wins: number; losses: number }[]
+  >([]);
 
   useEffect(() => {
     fetch("/api/leaderboard")
-      .then((r) => r.json())
+      .then((res) => res.json())
       .then(setData);
   }, []);
 
@@ -19,18 +21,18 @@ export default function Leaderboard() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: 20,
         }}
       >
         {data.map(({ image, wins, losses }) => (
           <div key={image} style={{ textAlign: "center" }}>
             <img
-              src={`/images/${image}`}
+              src={`${CLOUDINARY_BASE_URL}/${image}`}
               alt={image}
               width={200}
               height={200}
-              style={{ borderRadius: 8 }}
+              style={{ borderRadius: 12 }}
             />
             <p>
               Wins: {wins} | Losses: {losses}
